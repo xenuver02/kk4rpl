@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Siswa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+    <div class="row">
+        <form method="post" action="<%= form %>">
+        NIS
+        <input type="text" name="nis" value="<%= nis %>" class="form-control">
+        Nama
+        <input type="text" name="nama" value="<%= nama %>" class="form-control">
+        Kelas
+        <select name="kelas" class="form-control">
+            <option value="XI RPL 1">XI RPL 1</option>
+            <option value="XI RPL 2">XI RPL 2</option>
+            <option value="XI RPL 3">XI RPL 3</option>
+        </select>
+        <input type="submit" value="<%= tombol %>" action="insert" class="btn btn-primary mt-2">
+        </div>
+    </div>
+</form>

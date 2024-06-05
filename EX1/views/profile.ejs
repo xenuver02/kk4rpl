@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title>Penjualan Barang</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .label total-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .label total-box {
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+        }
+        .penjualan {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #app {
+            width: 1000px; /* Set width */
+            height: 490px; /* Set height equal to width */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto; /* Add overflow:auto to handle content overflow */
+        }
+        
+        h1, h2 {
+            color: #333;
+        }
+        
+        .awal, .input, table, .total-section {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .input {
+            display: flex; /* Use flexbox */
+            align-items: center;
+            margin-bottom: 10px;
+            margin-left: 15px;
+        
+        }
+        
+        .input label {
+            margin-right: 10px;
+            flex: 1; /* Equal width for all labels */
+        }
+        
+        .input-group input[type="text"],
+        .input-group input[type="number"],
+        .input-group input[type="date"] {
+            flex: 2; /* Input fields take more space */
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .button, button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover, button:hover {
+            background-color: #45a049;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        .total-section {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .total-section h2 {
+            margin: 0 0 10px 0;
+        }
+    </style>
+    <a href="about.ejs">about</a>
+    <% const nama = "gabid" %>
+    <%= nama %>
+    <%= alamat %>
+    <div class="penjualan">
+    <div id="app">
+        <h1>Penjualan Barang</h1>
+        <label class="total">Total Harga: {{ totalHarga }}</label>
+        <div class="awal">
+            <label>No Nota:</label>
+            <input v-model="noNota" placeholder="Masukkan No Nota" />
+            <br>
+            <label>Nama Pelanggan:</label>
+            <input v-model="namaPelanggan" placeholder="Masukkan Nama Pelanggan" />
+            <br>
+            <label>Tanggal:</label>
+            <input type="date" v-model="tanggal" />
+        </div>
+        <div class="input">
+            <label>Nama Barang:     <input v-model="namaBarang" placeholder="Masukkan Nama Barang" /></label>
+            <label>Kode Barang:     <input type="text" v-model="kodeBarang" placeholder="Masukkan Kode Barang" /></label>
+            <label>Harga Barang:    <input type="text" v-model="hargaBarang" placeholder="Masukkan Harga Barang" /></label>
+            <label>Qty:             <input type="number" v-model="jumlahBarang" placeholder="Masukkan Jumlah Barang" /></label>
+        </div>
+        <button @click="tambahBarang">Tambah Barang</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Barang</th>
+                    <th>Kode Barang</th>
+                    <th>Harga Barang</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(barang, index) in daftarBarang" :key="index">
+                    <td>{{ barang.nama }}</td>
+                    <td>{{ barang.kode }}</td>
+                    <td>{{ barang.harga }}</td>
+                    <td>{{ barang.jumlah }}</td>
+                    <td>{{ barang.total }}</td>
+                    <td><button @click="hapusBarang(index)">Hapus</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <label>Diskon (%):</label>
+            <input type="number" v-model="diskon" placeholder="Masukkan Diskon" />
+        </div>
+        <h2>Total: {{ totalHarga }}</h2>
+        <h2>Total Setelah Diskon: {{ totalSetelahDiskon }}</h2>
+        <div>
+            <label>Bayar:</label>
+            <input type="text" v-model="bayar" placeholder="Masukkan Jumlah Bayar" />
+        </div>
+        <h2>Kembalian: {{ kembalian }}</h2>
+    </div>
+
+    <script>
+      new Vue({
+        el: '#app',
+        data() {
+          return {
+            noNota: '',
+            namaPelanggan: '',
+            tanggal: '',
+            namaBarang: '',
+            kodeBarang: '',
+            hargaBarang: 0,
+            jumlahBarang: 0,
+            daftarBarang: [],
+            diskon: 0,
+            bayar: 0
+          };
+        },
+        computed: {
+          totalHarga() {
+            return this.daftarBarang.reduce((total, barang) => total + barang.total, 0);
+          },
+          totalSetelahDiskon() {
+            return this.totalHarga - (this.totalHarga * (this.diskon / 100));
+          },
+          kembalian() {
+            return this.bayar - this.totalSetelahDiskon;
+          }
+        },
+        methods: {
+          tambahBarang() {
+            if (this.namaBarang && this.hargaBarang > 0 && this.jumlahBarang > 0) {
+              const total = this.hargaBarang * this.jumlahBarang;
+              this.daftarBarang.push({
+                nama: this.namaBarang,
+                kode: this.kodeBarang,
+                harga: this.hargaBarang,
+                jumlah: this.jumlahBarang,
+                total
+              });
+              this.namaBarang = '';
+              this.kodeBarang = '';
+              this.hargaBarang = 0;
+              this.jumlahBarang = 0;
+            }
+          },
+          hapusBarang(index) {
+            this.daftarBarang.splice(index, 1);
+          }
+        }
+      });
+    </script>
+</body>
+</html>

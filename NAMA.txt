@@ -1,0 +1,3 @@
+nama = Gabid Habib
+kelas = XI RPL 1
+nis = 2223119514
